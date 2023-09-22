@@ -19,6 +19,7 @@
 /public/uploads/
 /public/build/
 /assets/
+/node_modules/
 
 ###> liip/imagine-bundle ###
 /public/media/cache/
