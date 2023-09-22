@@ -1,0 +1,13 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Edit Mission{% endblock %}
+
+{% block body %}
+    <h1>Edit Mission</h1>
+
+    {{ include('admin/mission/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin_mission_index') }}">back to list</a>
+
+    {{ include('admin/mission/_delete_form.html.twig') }}
+{% endblock %}

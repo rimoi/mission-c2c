@@ -1,0 +1,40 @@
+.pagination .page-item:first-child {
+    margin-right: 27px;
+}
+.pagination .page-item:last-child {
+    margin-right: 27px;
+}
+
+.pagination .page-item .page-link {
+    width: 68px;
+    height: 45px;
+}
+
+.invalid-feedback .badge.form-error-icon {
+    color: #a33737;
+}
+
+.ml-2 {
+    margin-left: .5rem!important;
+}
+
+.ml-4 {
+    margin-left: 1.5rem!important;
+}
+
+.mr-2 {
+    margin-right: .5rem!important;
+}
+
+.site-header {
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+     padding-top: 0;
+     padding-bottom: 0;
+}
+
+.section-bg {
+    background: #d4d6d7;
+}

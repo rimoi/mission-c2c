@@ -1,0 +1,38 @@
+<section class="shop-detail-bar section-bg">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-7 col-md-8 col-12 d-flex">
+                <p class="shop-detail-bar-wrap d-flex flex-wrap mb-0">
+                    <span class="me-2">Prix :</span>
+
+                    <strong class="shop-pricing-text">{{ mission.price }} €</strong>
+                </p>
+
+                <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0">
+                    <span class="me-2">Catégories :</span>
+
+                    {% for tag in mission.tags %}
+                        <a href="#">
+                            <span class="badge rounded-pill bg-success">{{ tag.name }} </span>
+                            &nbsp;
+                        </a>
+                    {% endfor %}
+                </p>
+            </div>
+
+            <div class="col-lg-5 col-md-4 col-12 social-share d-flex align-items-center ms-lg-auto mt-3 mt-lg-0 mt-md-0">
+                <p class="mb-0 me-3 ms-lg-auto ms-md-auto">Publication le :</p>
+
+                <ul class="social-icon">
+
+                    <li class="social-icon-item">
+                        <i class="social-icon-link"></i>
+
+                        {{ mission.createdAt|date('d/m/Y') }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
