@@ -24,7 +24,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('statut', ChoiceType::class, [
+            ->add('status', ChoiceType::class, [
                     'choices' => [
                         'Freelances' => UserConstant::ROLE_FREELANCE,
                         'Autres' => UserConstant::ROLE_CLIENT,

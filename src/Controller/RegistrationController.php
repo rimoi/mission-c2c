@@ -45,6 +45,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            if ($role = $form->get('status')->getData()) {
+                $user->setRoles([$role]);
+            }
+
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $form['imageFile']->getData();
 

@@ -5,7 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Mission;
 use App\Form\MissionType;
 use App\Repository\MissionRepository;
+use App\Service\UploaderHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,14 +31,27 @@ class MissionController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UploaderHelper $uploaderHelper
+    ): Response
     {
         $mission = new Mission();
         $form = $this->createForm(MissionType::class, $mission);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+
+
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form->get('image')->getData();
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadMissionImage($uploadedFile, null);
+                $mission->setImageFile($newFilename);
+            }
+
             $entityManager->persist($mission);
             $entityManager->flush();
 
@@ -61,13 +77,27 @@ class MissionController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Mission $mission): Response
+    public function edit(
+        Request $request,
+        Mission $mission,
+        EntityManagerInterface $entityManager,
+        UploaderHelper $uploaderHelper
+    ): Response
     {
         $form = $this->createForm(MissionType::class, $mission);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form->get('image')->getData();
+
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadMissionImage($uploadedFile, $mission->getImageFile());
+                $mission->setImageFile($newFilename);
+            }
+
+            $entityManager->flush();
 
             return $this->redirectToRoute('admin_mission_index', [
                 'id' => $mission->getId(),
@@ -83,10 +113,9 @@ class MissionController extends AbstractController
     /**
      * @Route("/{id}/delete", name="delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Mission $mission): Response
+    public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$mission->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($mission);
             $entityManager->flush();
         }

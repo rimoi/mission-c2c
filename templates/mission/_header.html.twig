@@ -22,14 +22,14 @@
             </div>
 
             <div class="col-lg-5 col-md-4 col-12 social-share d-flex align-items-center ms-lg-auto mt-3 mt-lg-0 mt-md-0">
-                <p class="mb-0 me-3 ms-lg-auto ms-md-auto">Publication le :</p>
+                <p class="mb-0 me-3 ms-lg-auto ms-md-auto">Publié :</p>
 
                 <ul class="social-icon">
 
                     <li class="social-icon-item">
                         <i class="social-icon-link"></i>
 
-                        {{ mission.createdAt|date('d/m/Y') }}
+                        {{ mission.createdAt|ago }}
                     </li>
                 </ul>
             </div>

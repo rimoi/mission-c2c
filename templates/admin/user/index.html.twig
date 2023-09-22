@@ -1,53 +1,58 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1>{{ block('title') }}</h1>
+
+    <div class="my-2">
+        <a class="btn btn-primary" href="{{ path('admin_user_new') }}">Nouveau utilisateur</a>
+    </div>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
+                <th>Avatar</th>
                 <th>FirstName</th>
                 <th>LastName</th>
-                <th>Pseudo</th>
+                <th>Email</th>
+                <th>Roles</th>
                 <th>CreatedAt</th>
                 <th>UpdatedAt</th>
-                <th>Slug</th>
-                <th>Avatar</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+                <td>
+                    {% if user.avatar %}
+                        <img src="{{ user.imagePath|imagine_filter('ultra_small') }}" class="rounded-circle" alt="Logo {{ user.nickname }}">
+                    {% else %}
+                        <i class="fa-regular fa-circle-user fa-2x text-danger"></i>
+                    {% endif %}
+                </td>
                 <td>{{ user.firstName }}</td>
                 <td>{{ user.lastName }}</td>
-                <td>{{ user.pseudo }}</td>
-                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.slug }}</td>
-                <td>{{ user.avatar }}</td>
+                <td>{{ user.email }}</td>
                 <td>
-                    <a href="{{ path('admin_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('admin_user_edit', {'id': user.id}) }}">edit</a>
+                    {% for role in user.roles %}
+                        <span class="badge rounded-pill bg-dark">{{ role }}</span>
+                    {% endfor %}
+                <td>{{ user.createdAt ? user.createdAt|ago : '' }}</td>
+                <td>{{ user.updatedAt ? user.updatedAt|ago : '' }}</td>
+                <td>
+                    <a href="{{ path('admin_user_show', {'id': user.id}) }}">Voir</a>
+                    <a href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="12">no records found</td>
+                <td colspan="12">Pas d'utilisateur trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('admin_user_new') }}">Create new</a>
+
 {% endblock %}

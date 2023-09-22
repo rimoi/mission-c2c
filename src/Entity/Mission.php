@@ -85,6 +85,11 @@ class Mission
      */
     private $reviews;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $published = false;
+
 
     public function getImagePath(): string
     {
@@ -254,6 +259,18 @@ class Mission
                 $review->setMission(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(?bool $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }
