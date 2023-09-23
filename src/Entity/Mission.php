@@ -96,6 +96,21 @@ class Mission
         return UploaderHelper::MISSION_IMAGE.'/'.$this->getImageFile();
     }
 
+    public function checkIfCurrentUserHasPublishedReviewForThisMission(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        foreach ($this->reviews as $review) {
+            if ($review->getUser() == $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public function __construct()
     {

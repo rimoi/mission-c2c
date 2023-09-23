@@ -38,3 +38,7 @@
 .section-bg {
     background: #d4d6d7;
 }
+
+.owl-carousel .owl-item img.js-review-circle {
+    width: 50px;
+}

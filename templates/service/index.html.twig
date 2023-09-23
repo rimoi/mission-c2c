@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau service{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {{ form_start(form) }}
+                    <div class="card">
+                        <div class="card-header">Nouveau service</div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <h6 class="font-weight-bold">
+                                    Titre
+                                </h6>
+                                <p class="text-muted">
+                                    Titre de votre prestation.
+                                </p>
+                                <div class="form-group">
+                                    {{ form_errors(form.title) }}
+                                    <div class="input-group mb-3 border border-light rounded">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-0 bg-white">🗣</span>
+                                        </div>
+                                        {{ form_widget(form.title, {
+                                            attr: {
+                                                class: 'form-control'
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <h6 class="font-weight-bold">
+                                    Contenu
+                                </h6>
+                                <p class="text-muted">
+                                    Une petite description de votre prestation, ça fait toujours plaisir au client.
+                                </p>
+                                <div class="form-group">
+                                    {{ form_errors(form.content) }}
+                                    <div class=" mb-3 border border-light rounded">
+                                        {{ form_widget(form.content, {
+                                            attr: {
+                                                class: 'form-control'
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h6 class="font-weight-bold">
+                                    Prix
+                                </h6>
+                                <p class="text-muted">
+                                    Indiquez le prix pour ce service, c’est-à-dire le prix de la prestation que vous vendez.
+                                </p>
+                                <div class="form-group">
+                                    {{ form_errors(form.price) }}
+                                    <div class="input-group mb-3 border border-light rounded">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-0 bg-white">💰</span>
+                                        </div>
+                                        {{ form_widget(form.price, {
+                                            attr: {
+                                                class: 'form-control'
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h6 class="font-weight-bold">
+                                    Image
+                                </h6>
+                                <p class="text-muted">
+                                    Uploader une image pour votre prestation.
+                                </p>
+                                <div class="form-group">
+                                    {{ form_errors(form.image) }}
+                                    <div class="input-group mb-3 border border-light rounded">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-0 bg-white">📷</span>
+                                        </div>
+                                        {{ form_widget(form.image, {
+                                            attr: {
+                                                class: 'form-control'
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+
+{#                            <div class="mb-3">#}
+{#                                <label for="prenom" class="form-label">Prénom :</label>#}
+{#                                <input type="text" class="form-control" id="prenom" name="prenom">#}
+{#                            </div>#}
+                            <button class="btn btn-primary next-btn">Créer</button>
+                        </div>
+                    </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{#
+
+<div class="mb-4">
+         <h6 class="font-weight-bold">
+            Prix
+         </h6>
+         <p class="text-muted">
+            Indiquez le prix pour ce service, c’est-à-dire le prix de la prestation que vous vendez.
+         </p>
+         <div class="form-group">
+            <div class="input-group mb-3 border border-light rounded">
+               <div class="input-group-prepend">
+                  <span class="input-group-text border-0 bg-white">{{ currency }}</span>
+               </div>
+               {{ form_widget(form.prix) }}
+            </div>
+            {{ form_errors(form.prix) }}
+         </div>
+      </div>
+#}

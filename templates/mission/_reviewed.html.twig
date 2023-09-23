@@ -18,7 +18,7 @@
                             <div class="reviews-bottom reviews-bottom-up d-flex align-items-center">
 
                                 {% if review.user.avatar %}
-                                    <img src="{{ review.user.imagePath|imagine_filter('thumbnail_small') }}" class="avatar-image img-fluid" alt="Logo {{ review.user.nickname }}">
+                                    <img src="{{ review.user.imagePath|imagine_filter('thumbnail_small') }}" class="avatar-image img-fluid rounded-circle js-review-circle" alt="Logo {{ review.user.nickname }}">
                                 {% else %}
                                     <i class="fa-regular fa-circle-user fa-3x" style="color: #cf6950"></i>
                                 {% endif %}
