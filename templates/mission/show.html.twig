@@ -55,6 +55,8 @@
                         {{ mission.content|raw }}
                     </div>
 
+                    <a href="{{ path('mission_conversations', {slug: mission.user.slug, missionSlug: mission.slug}) }}" class="btn btn-info">Contacter</a>
+
                     <div class="col-12">
                         {% if show_info %}
                             {% include 'mission/_show_info_contact.html.twig' %}

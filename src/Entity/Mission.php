@@ -90,6 +90,11 @@ class Mission
      */
     private $published = false;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="mission")
+     */
+    private $conversations;
+
 
     public function getImagePath(): string
     {
@@ -116,6 +121,7 @@ class Mission
     {
         $this->tags = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -286,6 +292,36 @@ class Mission
     public function setPublished(?bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations[] = $conversation;
+            $conversation->setMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            // set the owning side to null (unless already changed)
+            if ($conversation->getMission() === $this) {
+                $conversation->setMission(null);
+            }
+        }
 
         return $this;
     }

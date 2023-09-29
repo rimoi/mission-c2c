@@ -2,12 +2,20 @@
 
 namespace App\Twig;
 
+use App\Repository\ConversationRepository;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class StringExtension extends AbstractExtension
 {
+    private $conversationRepository;
+
+    public function __construct(ConversationRepository $conversationRepository)
+    {
+        $this->conversationRepository = $conversationRepository;
+    }
+
     public function getFilters(): array
     {
         return [
@@ -20,7 +28,9 @@ class StringExtension extends AbstractExtension
 
     public function getFunctions(): array
     {
-        return [];
+        return [
+            new TwigFunction('getMessageNonLu', [$this, 'getMessageNonLu']),
+        ];
     }
 
     public function displayTruncateFilter(?string $string, int $maxLength): string
@@ -59,5 +69,9 @@ class StringExtension extends AbstractExtension
         }
 
         return $newString.(strlen($newString) === strlen($string) ? '' : '...');
+    }
+
+    public function getMessageNonLu($user) {
+        return $this->conversationRepository->findByParticipationNonLu($user);
     }
 }

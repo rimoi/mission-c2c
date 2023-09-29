@@ -13,8 +13,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploaderHelper
 {
-    const MISSION_IMAGE = 'mission_image';
-    const USER_AVATAR = 'user_avatar';
+    public const MISSION_IMAGE = 'mission_image';
+    public const MESSAGE = 'message';
+    public const USER_AVATAR = 'user_avatar';
 
     private $filesystem;
 
@@ -54,6 +55,11 @@ class UploaderHelper
         }
 
         return $newFilename;
+    }
+
+    public function uploadMessageImage(File $file): string
+    {
+        return $this->uploadFile($file, self::MESSAGE, false);
     }
 
     public function uploadUserAvatar(File $file): string
