@@ -75,6 +75,15 @@ class Conversation
      */
     private $sender;
 
+    public function hasReadLastMessage(): bool
+    {
+        if ($this->lastMessage && !$this->getLastMessage()->getSeen()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
+use App\Entity\Country;
 use App\Entity\Mission;
 use App\Entity\User;
 use App\Form\ServiceType;
@@ -34,6 +36,41 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $countryExist = null;
+            if ($service->getCountry()) {
+                $countryExist = $entityManager->getRepository(Country::class)->findOneBy(['reference' => $service->getCountry()->getReference()]);
+
+                if (!$countryExist) {
+                    $entityManager->persist($service->getCountry());
+                } else {
+                    $service->setCountry($countryExist);
+                }
+            }
+
+            if ($service->getCity()) {
+                $cityExist = $entityManager->getRepository(City::class)->findOneBy(['reference' => $service->getCity()->getReference()]);
+
+                if (!$cityExist) {
+                    $entityManager->persist($service->getCity());
+                } else {
+                    $service->setCity($cityExist);
+                }
+
+                if ($service->getCountry()) {
+                    $service->getCity()->setCountry($service->getCountry());
+                }
+            }
+
+            if ($service->getCountry()) {
+                $countryExist = $entityManager->getRepository(Country::class)->findOneBy(['reference' => $service->getCountry()->getReference()]);
+
+                if (!$countryExist) {
+                    $entityManager->persist($service->getCountry());
+                } else {
+                    $service->setCountry($countryExist);
+                }
+            }
 
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $form->get('image')->getData();

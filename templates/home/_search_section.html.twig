@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-lg-5 col-md-6 col-12">
                                 <div class="input-group align-items-center">
-                                    <label for="product-name">Mot clef</label>
+                                    <label for="product-name">Mot clef : </label>
 
                                     <input
                                         value="{{ app.request.get('q') }}"
@@ -23,7 +23,7 @@
 
                             <div class="col-lg-5 col-md-6 col-12">
                                 <div class="input-group align-items-center">
-                                    <label for="last-name">Catégorie</label>
+                                    <label for="last-name">Prix : </label>
                                     <select name="prices" class="form-select form-control" id="price-range" aria-label="Default select example">
                                         <option value="1-200" {{ (app.request.get('prices') and app.request.get('prices') == '1-200') ? 'selected'  }}>1€ to 200€</option>
                                         <option value="200-600" {{ (app.request.get('prices') and app.request.get('prices') == '200-600') ? 'selected'  }}>200€ - 600€</option>

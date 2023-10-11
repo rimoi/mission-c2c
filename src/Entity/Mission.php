@@ -95,6 +95,16 @@ class Mission
      */
     private $conversations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="missions")
+     */
+    private $country;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="missions")
+     */
+    private $city;
+
 
     public function getImagePath(): string
     {
@@ -322,6 +332,30 @@ class Mission
                 $conversation->setMission(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

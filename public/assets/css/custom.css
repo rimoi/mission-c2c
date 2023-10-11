@@ -101,6 +101,11 @@
     color: #fff !important;
 }
 
+.bg-not-seen  {
+    background-color: #547868;
+    border-color: #252e2a !important;
+}
+
 .bg-lightgray {
     background: #f0f5f7;
 }

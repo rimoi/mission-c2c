@@ -2,7 +2,7 @@
 	{% if app.request.attributes.get('_route') == 'conversations' %}
 
         {% for userconversation in conversations %}
-            <div class="p-1 align-items-center border-bottom osahan-post-header overflow-hidden {{ userconversation == conversation ? 'bg-blue' : '' }}"
+            <div class="p-1 align-items-center border-bottom osahan-post-header overflow-hidden {{ userconversation == conversation ? 'bg-blue'  : (userconversation.hasReadLastMessage and userconversation.user2.id == app.user.id  ? 'bg-not-seen' : '') }}"
             id="conversation-{{ userconversation.id }}">
 
             {% if userconversation.user1.id == app.user.id %}
@@ -68,8 +68,11 @@
 
 	{% else %}
 	    {% for userconversation in conversations %}
+
 	        <div
-                class="p-1 align-items-center border-bottom osahan-post-header overflow-hidden {{ userconversation == conversation ? 'bg-blue' : '' }}"
+                class="p-1 align-items-center border-bottom osahan-post-header overflow-hidden
+                {{ userconversation == conversation ? 'bg-blue' : (userconversation.hasReadLastMessage and userconversation.user2.id == app.user.id ? 'bg-not-seen' : '') }}
+                "
                 id="conversation-{{ userconversation.id }}">
 
                 {% if userconversation.user1.id == app.user.id %}

@@ -2,6 +2,43 @@
 
 {% block title %}Nouveau service{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var $sport = $('#service_country');
+        $sport.change(function() {
+
+            $('.js-loader').addClass('spinner-border')
+
+            var $form = $(this).closest('form');
+
+            var data = {};
+            data[$sport.attr('name')] = $sport.val();
+
+            $.ajax({
+                url : $form.attr('action'),
+                type: $form.attr('method'),
+                data : data,
+                success: function(html) {
+                    $('#service_city').replaceWith(
+                        $(html).find('#service_city')
+                    );
+
+                    $('#service_city').css('width', '94%');
+
+                    $('#service_city').select2();
+
+                    setTimeout(function () {
+                        $('.js-loader').removeClass('spinner-border')
+                    }, 500);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+
 {% block body %}
 
     <div class="container mt-5">
@@ -13,7 +50,7 @@
                         <div class="card-body">
                             <div class="mb-4">
                                 <h6 class="font-weight-bold">
-                                    Titre
+                                    Titre<sup class="text-danger">*</sup>
                                 </h6>
                                 <p class="text-muted">
                                     Titre de votre prestation.
@@ -34,7 +71,7 @@
                             </div>
                             <div class="mb-4">
                                 <h6 class="font-weight-bold">
-                                    Contenu
+                                    Contenu<sup class="text-danger">*</sup>
                                 </h6>
                                 <p class="text-muted">
                                     Une petite description de votre prestation, ça fait toujours plaisir au client.
@@ -53,7 +90,7 @@
 
                             <div class="mb-4">
                                 <h6 class="font-weight-bold">
-                                    Prix
+                                    Prix<sup class="text-danger">*</sup>
                                 </h6>
                                 <p class="text-muted">
                                     Indiquez le prix pour ce service, c’est-à-dire le prix de la prestation que vous vendez.
@@ -75,7 +112,7 @@
 
                             <div class="mb-4">
                                 <h6 class="font-weight-bold">
-                                    Image
+                                    Image<sup class="text-danger">*</sup>
                                 </h6>
                                 <p class="text-muted">
                                     Uploader une image pour votre prestation.
@@ -95,11 +132,56 @@
                                 </div>
                             </div>
 
-{#                            <div class="mb-3">#}
-{#                                <label for="prenom" class="form-label">Prénom :</label>#}
-{#                                <input type="text" class="form-control" id="prenom" name="prenom">#}
-{#                            </div>#}
-                            <button class="btn btn-primary next-btn">Créer</button>
+                            <div class="mb-4">
+                                <h6 class="font-weight-bold">
+                                    Pays
+                                </h6>
+                                <p class="text-muted">
+                                    Choisissez un pays.
+                                </p>
+                                <div class="form-group">
+                                    {{ form_errors(form.price) }}
+                                    <div class="input-group mb-3 border border-light rounded">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-0 bg-white">🌍</span>
+                                        </div>
+                                        {{ form_widget(form.country, {
+                                            attr: {
+                                                class: 'form-control js-select2',
+                                                style: 'width:94%'
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <h6 class="font-weight-bold">
+                                    Ville
+                                </h6>
+                                <p class="text-muted">
+                                    Choisissez une ville.
+                                </p>
+                                <div class="form-group">
+                                    {{ form_errors(form.price) }}
+                                    <div class="input-group mb-3 border border-light rounded">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-0 bg-white js-loader">🏫</span>
+                                        </div>
+                                        {{ form_widget(form.city, {
+                                            attr: {
+                                                class: 'form-control'
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary next-btn">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                    Soumettre le service
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -109,25 +191,3 @@
     </div>
 
 {% endblock %}
-
-
-{#
-
-<div class="mb-4">
-         <h6 class="font-weight-bold">
-            Prix
-         </h6>
-         <p class="text-muted">
-            Indiquez le prix pour ce service, c’est-à-dire le prix de la prestation que vous vendez.
-         </p>
-         <div class="form-group">
-            <div class="input-group mb-3 border border-light rounded">
-               <div class="input-group-prepend">
-                  <span class="input-group-text border-0 bg-white">{{ currency }}</span>
-               </div>
-               {{ form_widget(form.prix) }}
-            </div>
-            {{ form_errors(form.prix) }}
-         </div>
-      </div>
-#}

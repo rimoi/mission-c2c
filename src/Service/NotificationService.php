@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Contact;
+use App\Entity\Conversation;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
@@ -58,6 +60,26 @@ class NotificationService
             ->htmlTemplate($template)
             ->context([
                 'contact' => $contact,
+                'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ]);
+
+        $this->mailer->send($templateEmail);
+
+    }
+
+    public function newContactReceived(Conversation $conversation): void
+    {
+        $template = 'mailing/new_contact.html.twig';
+
+        $templateEmail = (new TemplatedEmail())
+            ->from(new Address($this->emailSender, 'MISSION C2C'))
+            ->to($conversation->getUser2()->getEmail())
+            ->subject(
+                sprintf('%s vous a envoyé 1 message', $conversation->getUser1()->nickname())
+            )
+            ->htmlTemplate($template)
+            ->context([
+                'conversation' => $conversation,
                 'homepage' => $this->urlGenerator->generate('home', [], UrlGeneratorInterface::ABSOLUTE_URL)
             ]);
 

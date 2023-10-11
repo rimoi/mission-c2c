@@ -11,8 +11,10 @@ use App\Form\MessageType;
 use App\Repository\ConversationRepository;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
+use App\Service\NotificationService;
 use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,6 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/conversations")
+ * @IsGranted("ROLE_USER")
  */
 class ConversationsController extends AbstractController
 {
@@ -47,7 +50,6 @@ class ConversationsController extends AbstractController
         EntityManagerInterface $entityManager,
         UploaderHelper $uploaderHelper
     ): Response {
-
         /** @var User */
         $user = $this->getUser();
 
@@ -196,8 +198,8 @@ class ConversationsController extends AbstractController
         User $user,
         Mission $mission,
         EntityManagerInterface $entityManager,
-        UserRepository $userRepository,
-        ConversationRepository $conversationsRepository
+        ConversationRepository $conversationsRepository,
+        NotificationService $notificationService
     ): Response {
 
         $findconversation = $conversationsRepository->findOneBy([
@@ -242,6 +244,8 @@ class ConversationsController extends AbstractController
             $conversation->setLastMessage($message);
 
             $entityManager->flush();
+
+            $notificationService->newContactReceived($conversation);
 
             return $this->redirectToRoute('conversations_show', [
                 'id' => $conversation->getId()

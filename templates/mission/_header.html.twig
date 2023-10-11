@@ -9,16 +9,35 @@
                     <strong class="shop-pricing-text">{{ mission.price }} €</strong>
                 </p>
 
-                <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0">
-                    <span class="me-2">Catégories :</span>
+                {% if mission.tags.count %}
+                    <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0">
+                        <span> &nbsp;&nbsp; | &nbsp; &nbsp; &nbsp;</span>
+                        <span class="me-2">Catégories :</span>
 
-                    {% for tag in mission.tags %}
-                        <a href="#">
-                            <span class="badge rounded-pill bg-success">{{ tag.name }} </span>
-                            &nbsp;
-                        </a>
-                    {% endfor %}
-                </p>
+                        {% for tag in mission.tags %}
+                            <a href="#">
+                                <span class="badge rounded-pill bg-success">{{ tag.name }} </span>
+                                &nbsp;
+                            </a>
+                        {% endfor %}
+                    </p>
+                {% endif %}
+
+                {% if mission.country %}
+
+                    <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0">
+                        <span> &nbsp;&nbsp; | &nbsp; &nbsp; &nbsp;</span>
+                        <span class="me-2">Localisation :</span>
+
+                        <strong class="shop-pricing-text">
+                            {{ mission.country.name }}
+
+                            {% if mission.city %}
+                                ( {{ mission.city.name }} )
+                            {% endif %}
+                        </strong>
+                    </p>
+                {% endif %}
             </div>
 
             <div class="col-lg-5 col-md-4 col-12 social-share d-flex align-items-center ms-lg-auto mt-3 mt-lg-0 mt-md-0">
