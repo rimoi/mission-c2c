@@ -52,3 +52,7 @@ services:
         arguments:
             $tokenStorage: '@security.token_storage'
 
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 3 }
+

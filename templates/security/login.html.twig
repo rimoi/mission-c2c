@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-12 col-sm-4 offset-sm-5 mt-5">
+        <div class="col-11 offset-1 col-sm-4 offset-sm-5 mt-5">
             <form method="post">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

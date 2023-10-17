@@ -53,12 +53,15 @@
                                 </div>
 
                                 <div class="shop-btn-wrap">
-                                    <a href="{{ path('mission_show', { slug: mission.slug }) }}" class="shop-btn custom-btn btn d-flex align-items-center align-items-center">Plus d'infos</a>
+                                    <a href="{{ path('mission_show', { slug: mission.slug }) }}" class="shop-btn custom-btn btn d-flex align-items-center align-items-center" title="Voir {{ mission.title }}">Plus d'infos</a>
                                 </div>
                             </div>
 
                             <div class="shop-body">
-                                <h4>{{ mission.title }}</h4>
+                                <a href="{{ path('mission_show', { slug: mission.slug }) }}" title="Voir {{ mission.title }}">
+                                    <h4>{{ mission.title }}</h4>
+                                </a>
+
                             </div>
                         </div>
                     </div>

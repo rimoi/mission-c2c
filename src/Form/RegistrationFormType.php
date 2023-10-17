@@ -74,7 +74,7 @@ class RegistrationFormType extends AbstractType
                     new Image(),
                     new FileConstraint([
                         'maxSize' => '2M',
-                        'maxSizeMessage' => 'Le fichier est trop volumineux ({{ taille }} {{ suffixe }}). La taille maximale autorisée est de {{ limite }}. {{ suffixe }}'
+                        'maxSizeMessage' => 'Le fichier est trop volumineux. La taille maximale autorisée est de 2Mo'
                     ])
                 ],
             ])

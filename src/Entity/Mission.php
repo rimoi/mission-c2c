@@ -123,6 +123,19 @@ class Mission
             }
         }
 
+        if ($user && $user->getId() === $this->user->getId()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isOwner(?User $user): bool
+    {
+        if ($user && $user->getId() === $this->user->getId()) {
+            return true;
+        }
+
         return false;
     }
 

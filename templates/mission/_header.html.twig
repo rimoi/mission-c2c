@@ -3,6 +3,16 @@
         <div class="row">
 
             <div class="col-lg-7 col-md-8 col-12 d-flex">
+
+                {% if mission.isOwner(app.user) %}
+                    <p class="shop-detail-bar-wrap d-flex flex-wrap mb-0">
+                        <a href="{{ path('service_edited', {slug: mission.slug}) }}" class="btn btn-primary" title="Modifier l'annonce">
+                            <i class="fa fa-edit"></i>
+                            Modifier
+                        </a>
+                        &nbsp; &nbsp; &nbsp;
+                    </p>
+                {% endif %}
                 <p class="shop-detail-bar-wrap d-flex flex-wrap mb-0">
                     <span class="me-2">Prix :</span>
 
@@ -10,7 +20,7 @@
                 </p>
 
                 {% if mission.tags.count %}
-                    <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0">
+                    <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0 d-none d-sm-block">
                         <span> &nbsp;&nbsp; | &nbsp; &nbsp; &nbsp;</span>
                         <span class="me-2">Catégories :</span>
 
@@ -25,7 +35,7 @@
 
                 {% if mission.country %}
 
-                    <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0">
+                    <p class="shop-detail-bar-wrap d-flex flex-wrap ms-lg-5 ms-4 mb-0 d-none d-sm-block">
                         <span> &nbsp;&nbsp; | &nbsp; &nbsp; &nbsp;</span>
                         <span class="me-2">Localisation :</span>
 

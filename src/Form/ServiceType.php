@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ServiceType extends AbstractType
@@ -57,6 +58,24 @@ class ServiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        /** @var Mission|null $mission */
+        $mission = $options['data'] ?? null;
+        $isEdit = $mission && $mission->getId();
+
+        $imageConstraints = [
+            new Image([
+                'maxSize' => '2M',
+                'maxSizeMessage' => 'Le fichier est trop volumineux. La taille maximale autorisée est de 2Mo'
+            ])
+        ];
+
+        if (!$isEdit || !$mission->getImageFile()) {
+            $imageConstraints[] = new NotNull([
+                'message' => 'Merci de charger une image.$',
+            ]);
+        }
+
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
@@ -97,62 +116,59 @@ class ServiceType extends AbstractType
                 'attr' => ['class' => 'border-0']
             ])
             ->add('image', FileType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => false,
                 'mapped' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'constraints' => [
-                    new Image(),
-                    new FileConstraint([
-                        'maxSize' => '2M',
-                        'maxSizeMessage' => 'Le fichier est trop volumineux ({{ taille }} {{ suffixe }}). La taille maximale autorisée est de {{ limite }}. {{ suffixe }}'
-                    ])
-                ],
+                'constraints' => $imageConstraints,
             ])
-            ->add('country', ChoiceType::class, [
+        ;
+
+        if (!$isEdit) {
+
+            $builder->add('country', ChoiceType::class, [
                 'choices' => $this->listOfCountries(),
                 'choice_label' => 'name',
                 'required' => false,
                 'label' => 'Pays',
                 'placeholder' => 'Choisir un pays...',
-            ])
-        ;
-
-        $formModifier = function (FormInterface $form, ?Country $country) {
-
-            $form->add('city', ChoiceType::class, [
-                'choice_label' => 'name',
-                'required' => false,
-                'placeholder' => 'Choisir une ville...',
-                'choices' => $this->getCitiesByCountry($country),
             ]);
-        };
 
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($formModifier) {
-                // this would be your entity, i.e. SportMeetup
-                $data = $event->getData();
+            $formModifier = function (FormInterface $form, ?Country $country) {
 
-                $formModifier($event->getForm(), $data->getCountry());
-            }
-        );
+                $form->add('city', ChoiceType::class, [
+                    'choice_label' => 'name',
+                    'required' => false,
+                    'placeholder' => 'Choisir une ville...',
+                    'choices' => $this->getCitiesByCountry($country),
+                ]);
+            };
 
-        $builder->get('country')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier) {
-                // It's important here to fetch $event->getForm()->getData(), as
-                // $event->getData() will get you the client data (that is, the ID)
-                $country = $event->getForm()->getData();
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($formModifier) {
+                    // this would be your entity, i.e. SportMeetup
+                    $data = $event->getData();
 
-                // since we've added the listener to the child, we'll have to pass on
-                // the parent to the callback function!
-                $formModifier($event->getForm()->getParent(), $country);
-            }
-        );
+                    $formModifier($event->getForm(), $data->getCountry());
+                }
+            );
 
+            $builder->get('country')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function (FormEvent $event) use ($formModifier) {
+                    // It's important here to fetch $event->getForm()->getData(), as
+                    // $event->getData() will get you the client data (that is, the ID)
+                    $country = $event->getForm()->getData();
+
+                    // since we've added the listener to the child, we'll have to pass on
+                    // the parent to the callback function!
+                    $formModifier($event->getForm()->getParent(), $country);
+                }
+            );
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
