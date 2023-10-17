@@ -12,6 +12,7 @@
         "doctrine/orm": "^v2.7",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "gedmo/doctrine-extensions": "*",
+        "gregwar/captcha-bundle": "^v2.1",
         "knplabs/knp-paginator-bundle": "*",
         "knplabs/knp-time-bundle": "*",
         "liip/imagine-bundle": "^2.1",

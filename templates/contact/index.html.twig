@@ -21,6 +21,7 @@
 
                     <div class="col-lg-6 col-12">
                         {{ form_start(form, {'attr': {class: 'custom-form contact-form'}}) }}
+
                             <div class="row">
                                 <div class="col-12">
                                     <div class="input-group align-items-center">
@@ -83,6 +84,16 @@
                                     class: 'form-control'
                                 }
                             }) }}
+                        </div>
+
+                        <div class="input-group align-items-center">
+                            <label for="first-name">Captcha</label>
+                            {{ form_errors(form.captcha) }}
+                            {{ form_widget(form.captcha, {'attr': {
+                                'class': 'col-md-12 col-sm-12 form-control',
+                                'style': 'margin-top: 2px',
+                                'placeholder': 'Saisissez ici votre Captcha.'
+                            }}) }}
                         </div>
 
                             <div class="col-lg-3 col-md-4 col-6">

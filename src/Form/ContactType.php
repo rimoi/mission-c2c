@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Regex;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 class ContactType extends AbstractType
 {
@@ -57,6 +58,11 @@ class ContactType extends AbstractType
                     'label' => "Type de client",
                 ]
             )
+            ->add('captcha', CaptchaType::class, [
+                'width' => 250,
+                'height' => 80,
+                'length' => 4,
+            ])
         ;
     }
 
